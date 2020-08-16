@@ -153,10 +153,7 @@ namespace ITL_MakeId.Web.Controllers
 
         [Microsoft.AspNetCore.Mvc.HttpPost]
         [Microsoft.AspNetCore.Mvc.ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Microsoft.AspNetCore.Mvc.Bind("Id,Name,DesignationId, Department" +
-                                                      "BloodGroupId,CardNumber,CardNumber,ImagePathOfUser,ImagePathOfUserSignature," +
-                                                      "ImagePathOfAuthorizedSignature,CompanyName,CompanyAddress," +
-                                                      "CompanyLogoPath,CardInfo")] IdentityCardViewModel identityCardViewModel)
+        public async Task<IActionResult> Create(IdentityCardViewModel identityCardViewModel)
         {
 
             ViewData["BloodGroupId"] = new SelectList(_context.BloodGroups, "Id", "Name");

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITL_MakeId.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200816062220_DeptAdded")]
-    partial class DeptAdded
+    [Migration("20200816113349_Initial_!")]
+    partial class Initial_
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,6 +90,9 @@ namespace ITL_MakeId.Data.Migrations
 
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");

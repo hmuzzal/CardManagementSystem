@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITL_MakeId.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200816051233_initial")]
-    partial class initial
+    [Migration("20200816113856_Initialwre!")]
+    partial class Initialwre
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,36 @@ namespace ITL_MakeId.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BloodGroups");
+                });
+
+            modelBuilder.Entity("ITL_MakeId.Model.DomainModel.CardCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CardCategorys");
+                });
+
+            modelBuilder.Entity("ITL_MakeId.Model.DomainModel.Department", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("ITL_MakeId.Model.DomainModel.Designation", b =>
@@ -76,6 +106,12 @@ namespace ITL_MakeId.Data.Migrations
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("DesignationId")
                         .HasColumnType("int");
 
@@ -87,6 +123,9 @@ namespace ITL_MakeId.Data.Migrations
 
                     b.Property<string>("ImagePathOfUserSignature")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("IssueDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

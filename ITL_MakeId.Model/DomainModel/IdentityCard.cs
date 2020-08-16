@@ -33,6 +33,9 @@ namespace ITL_MakeId.Model.DomainModel
 
         public string CardNumber { get; set; }
 
+        [DataType(DataType.Date)]
+        public DateTime DateOfBirth { get; set; }
+
         public string ImagePathOfUser { get; set; }
         public string ImagePathOfUserSignature { get; set; }
 
@@ -50,6 +53,9 @@ namespace ITL_MakeId.Model.DomainModel
         public DateTime? ValidationStartDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime? ValidationEndDate { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? IssueDate { get; set; }
 
     }
 }

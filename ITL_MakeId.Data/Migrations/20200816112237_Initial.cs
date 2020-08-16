@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ITL_MakeId.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,6 +57,19 @@ namespace ITL_MakeId.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BloodGroups", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,6 +199,7 @@ namespace ITL_MakeId.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     DesignationId = table.Column<int>(nullable: false),
+                    Department = table.Column<string>(nullable: true),
                     BloodGroupId = table.Column<int>(nullable: false),
                     CardNumber = table.Column<string>(nullable: true),
                     ImagePathOfUser = table.Column<string>(nullable: true),
@@ -281,6 +295,9 @@ namespace ITL_MakeId.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "IdentityCards");

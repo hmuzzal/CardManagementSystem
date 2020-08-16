@@ -4,14 +4,16 @@ using ITL_MakeId.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ITL_MakeId.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200816112237_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,21 +34,6 @@ namespace ITL_MakeId.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BloodGroups");
-                });
-
-            modelBuilder.Entity("ITL_MakeId.Model.DomainModel.CardCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CategoryName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CardCategorys");
                 });
 
             modelBuilder.Entity("ITL_MakeId.Model.DomainModel.Department", b =>
@@ -104,9 +91,6 @@ namespace ITL_MakeId.Data.Migrations
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");
 
@@ -121,9 +105,6 @@ namespace ITL_MakeId.Data.Migrations
 
                     b.Property<string>("ImagePathOfUserSignature")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("IssueDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
