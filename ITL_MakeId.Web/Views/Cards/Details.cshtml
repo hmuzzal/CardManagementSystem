@@ -1,0 +1,139 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model ITL_MakeId.Model.ViewModel.IdentityCardViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    var imageUrl = "~/image/user/" + (Model.IdentityCard.ImagePathOfUser);
+    var imageSignUrl = "~/image/sig/" + (Model.IdentityCard.ImagePathOfUserSignature);
+    var imageAuthUrl = "~/image/auth/" + (Model.IdentityCard.ImagePathOfAuthorizedSignature);
+
+    var printMessage = "";
+    @if (Model.IdentityCard.ValidationEndDate < DateTime.Now)
+    {
+
+        printMessage = "Expired Card is not printable";
+    }
+
+    @if (Model.IdentityCard.ValidationEndDate ==null)
+     {
+
+         printMessage = "Card is not printable Without Validity Date";
+     }
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+<div class="form-bg col-md-11 mt-5 ml-auto mr-auto pl-0 pr-0 pt-0 pb-5">
+    <h3 class="formbar mb-0 mb-3">Identity Card</h3>
+
+    <div id="print" class=" myDivToPrint col-md-6 col-sm ml-auto mr-auto mb-5">
+        <div>
+            <div class="form-card p-3 float-left mr-3 mt-4">
+                <h5 class="id-card-header ">@Model.IdentityCard.CompanyName</h5>
+                <img style="height: 80px; width: 95px" class="card-img-top" src="@imageUrl" asp-append-version="true" />
+                <dl class="row">
+                    <dt class="col-5">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+                    <dd class="col-6">
+                        @Html.DisplayFor(model => model.IdentityCard.Name)
+                    </dd>
+                    <dt class="col-5">
+                        @Html.DisplayNameFor(model => model.Designation)
+                    </dt>
+                    <dd class="col-6">
+                        @Html.DisplayFor(model => model.IdentityCard.Designation.Title)
+                    </dd>
+                    <dt class="col-5">
+                        @Html.DisplayNameFor(model => model.BloodGroup)
+                    </dt>
+                    <dd class="col-6">
+                        @Html.DisplayFor(model => model.IdentityCard.BloodGroup.Name)
+                    </dd>
+                    <dt class="col-5">
+                        @Html.DisplayNameFor(model => model.CardNumber)
+                    </dt>
+                    <dd class="col-6">
+                        @Html.DisplayFor(model => model.IdentityCard.CardNumber)
+                    </dd>
+                    <dt class="col-4 mr-4 mt-3">
+                        <img style="height: 40px; width: 65px" class="card-img-top" src="@imageSignUrl" asp-append-version="true" />
+                    </dt>
+                    <dd class="col-4 mt-3">
+                        <img style="height: 40px; width: 65px" class="card-img-top" src="@imageAuthUrl" asp-append-version="true" />
+
+                    </dd>
+                    <dd class="col-5 border-top border-dark mr-2">
+                        <p class="sig-font">Holder Signature</p>
+                    </dd>
+                    <dd class="col-6 border-top border-dark">
+                        <p class="sig-font">Authorized Signature</p>
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="form-card p-3 float-left mt-4 mr-2">
+                <h5 class="id-card-header mb-3">@Model.IdentityCard.CompanyName</h5>
+                <dl class="row">
+                    <dt class="col-12 text-center">
+                        @Html.DisplayFor(model => model.IdentityCard.CardInfo)
+                    </dt>
+
+                    <dt class="col-12 mt-5 text-center font-weight-bold">
+                        <p class="m-0">Validity Date</p>
+                        @String.Format("{0:dd/MM/yyyy}", @Model.IdentityCard.ValidationStartDate)
+                        -
+                        @String.Format("{0:dd/MM/yyyy}", @Model.IdentityCard.ValidationEndDate)
+                    </dt>
+
+                    <dt class="col-12 mt-4 text-center font-weight-bold">
+                        <h5>@Model.IdentityCard.CompanyName</h5>
+                    </dt>
+
+                    <dt class="col-12 text-center">
+                        @Html.DisplayFor(model => model.IdentityCard.CompanyAddress)
+                    </dt>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="mb-5 mt-5">
+        @if (Model.IdentityCard.ValidationEndDate < DateTime.Now)
+            {
+        <button disabled="disabled" class="border-0 text-blue font-weight-bolder" onclick="printDiv('print')">Print |</button>
+            }
+
+        @if (Model.IdentityCard.ValidationEndDate >= DateTime.Now)
+            {
+        <button class="border-0 text-blue font-weight-bolder" onclick="printDiv('print')">Print |</button>
+
+
+            }
+
+        <a class="font-weight-bolder" asp-action="Edit" asp-route-id="@Model.IdentityCard.Id">Edit</a> |
+        <a class="font-weight-bolder" asp-action="Index">Back to List</a>
+    </div>
+    @if (printMessage != null)
+        {
+    <div>
+        <h5 class="text-danger"> @printMessage</h5>
+    </div>
+        }
+
+</div>
+}
+
+else
+{
+<div class="text-center ml-auto mr-auto mt-3">
+    <h1 class="display-4 mt-5 mb-5">Welcome</h1>
+    <h3 class="display-4 mb-5">To</h3>
+    <img class="mb-5 col-md-10" src="~/image/ba-2.png" />
+</div>
+}
+
+@section Scripts{
+    <script src="~/js/uploadimage.js"></script>
+}

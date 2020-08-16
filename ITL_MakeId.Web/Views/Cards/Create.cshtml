@@ -1,0 +1,110 @@
+﻿@model ITL_MakeId.Model.ViewModel.IdentityCardViewModel
+
+@{
+    Layout = "_CardLayout";
+    ViewData["Title"] = "Registration";
+}
+
+<link href="~/css/AutoComplete.css" rel="stylesheet" />
+
+<div class="col-md-6 mr-auto ml-auto p-0 mt-3 mb-5">
+
+    <h3 class="formbar mb-0">Registration</h3>
+    <div class="col-md-12 form-bg">
+        <form enctype="multipart/form-data" asp-action="Create" class="pb-5">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-12">
+                @*<div class="col-md-8">
+                    <div class="col-md-3">
+                        <img src="~/image/noimage.jpg" class="upload-box border border-info" id="output" />
+                    </div>
+                </div>*@
+
+                <div class="form-group col-md-6 float-left">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    @*<div class="form-group">
+                        <label asp-for="BloodGroup" class="control-label"></label>
+                        <select asp-for="BloodGroupId" class="form-control" asp-items="ViewBag.BloodGroupId"></select>
+                        <span asp-validation-for="BloodGroup" class="text-danger"></span>
+                    </div>*@
+                    
+                    <div class="form-group">
+                        <label asp-for="BloodGroup" class="control-label"></label>
+                        <select asp-for="BloodGroupId" class="form-control" asp-items="ViewBag.BloodGroupId"></select>
+                        <span asp-validation-for="BloodGroup" class="text-danger"></span>
+                    </div>
+
+                    @*<div class="form-group">
+                        <label asp-for="ImagePathOfUser" class="control-label"></label>
+                        <div class="custom-file">
+                            <input asp-for="ImagePathOfUser" class="form-control custom-file-input" onchange="loadFile(event)" />
+                            <label class="custom-file-label">Choose Image...</label>
+                            <span asp-validation-for="ImagePathOfUser" class="text-danger"></span>
+                        </div>
+                    </div>*@
+
+                </div>
+      
+
+                <div class="form-group col-md-6 float-left">
+                    <div class="form-group">
+                        <label asp-for="Designation" class="control-label"></label>
+                        <select asp-for="DesignationId" class="form-control" asp-items="ViewBag.DesignationId"></select>
+                        <span asp-validation-for="Designation" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Department" class="control-label"></label>
+                        <input asp-for="Department" class="form-control"/>
+                        <span asp-validation-for="Department" class="text-danger"></span>
+                    </div>
+
+                    @*<div class="form-group">
+                        <label asp-for="Department" class="control-label"></label>
+                        <input asp-for="Department" id="deptName" class="form-control autocomplete" />
+                        <span asp-validation-for="Department" class="text-danger"></span>
+                    </div>*@
+
+                    @*<div class="form-group">
+                        <label asp-for="ImagePathOfUserSignature" class="control-label"></label>
+                        <div class="custom-file">
+                            <input asp-for="ImagePathOfUserSignature" class="form-control custom-file-input" />
+                            <label class="custom-file-label">Choose Signaure...</label>
+                            <span asp-validation-for="ImagePathOfUserSignature" class="text-danger"></span>
+                        </div>
+                    </div>*@
+
+                </div>
+                <div class="form-group col-md-6 float-left">
+                </div>
+            </div>
+            <div class="">
+                <input type="submit" value="Create" class="btn btn-primary ml-5" />
+                <a asp-action="Index" class="btn back-btn ml-5">Back to List</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+}
+
+
+@section Scripts{
+
+    <script src="~/js/uploadimage.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#deptName').autocomplete({
+                source: '/Cards/DepartmentSearch'
+            });
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

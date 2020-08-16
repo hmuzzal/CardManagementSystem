@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+
+<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Interlink Technologies Ltd.</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+    <partial name="_LoginPartial" />
+    <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @*<li class="nav-item">
+                <a class="nav-link text-white" asp-area="" asp-controller="Cards" asp-action="Dashboard">Dashboard</a>
+            </li>*@
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Setup
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="Departments" asp-action="Create">Department</a>
+                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="Designations" asp-action="Create">Designation</a>
+                </div>
+            </li>
+
+            @if (User.Identity.Name == "superadmin@itl.com" || User.Identity.Name == "admin@itl.com")
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Application User
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item border-bottom" asp-area="Identity" asp-page="/Account/Register">Create User</a>
+                    </div>
+                </li>
+            }
+        }
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Identity Card
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="Cards" asp-action="Index">All User</a>
+                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="Cards" asp-action="UserRequestForCard">Request List For Card</a>
+                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="Cards" asp-action="ValidatedUsers">Verified Card Holders</a>
+                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="Cards" asp-action="ExpiredUserCards">Expired Card Holders</a>
+
+                }
+                <a class="dropdown-item" asp-area="" asp-controller="Cards" asp-action="Create">Register For Card</a>
+            </div>
+        </li>
+    </ul>
+</div>

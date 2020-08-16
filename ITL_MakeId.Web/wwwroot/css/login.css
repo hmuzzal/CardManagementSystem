@@ -1,0 +1,119 @@
+﻿body {
+    background-image: url('../Image/background-blur-clean-clear-531880.jpg');
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+.login-box {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+
+.formbar {
+    background: #186eda;
+}
+
+
+
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    min-width: 400px;
+    margin: auto;
+    /*padding: 45px;*/
+    margin-top: 140px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+
+.form .remember {
+    float: right;
+}
+
+.form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.from-padding {
+    padding: 45px;
+}
+.form button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    width: 100%;
+    border: 0;
+    padding: 12px 9px 12px 9px;
+    color: #FFFFFF;
+    font-size: 14px;
+    /*-webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;*/
+    cursor: pointer;
+    -ms-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.form button:hover, .form button:active, .form button:focus {
+    background: #43A047;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.back-btn {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #0a6cdc !important;
+    width: 100%;
+    border: 0;
+    padding: 13px 95px 13px 95px;
+    color: #FFFFFF;
+    font-size: 14px;
+    /*-webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;*/
+    cursor: pointer;
+    -ms-border-radius: 15px;
+    border-radius: 15px;
+}
+
+    .back-btn:hover, .back-btn:active, .back-btn:focus {
+        background: #0554ae;
+        text-decoration: none;
+        color: #FFFFFF;
+    }
+
+
+.form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+
+.form .message a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.form .register-form {
+    display: none;
+}
+

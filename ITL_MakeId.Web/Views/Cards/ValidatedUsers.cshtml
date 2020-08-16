@@ -1,0 +1,98 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@model ITL_MakeId.Model.ViewModel.IdentityCardViewModel
+
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+<link href="~/css/datatable.css" rel="stylesheet" />
+
+@if (SignInManager.IsSignedIn(User))
+{
+<div class="col-md-10 m-auto">
+    <h1 class="text-center">@ViewBag.Title</h1>
+    <div class="col-md-12 m-auto">
+        <table id="cardTable" class="table table-striped table-bordered" style="width: 100%">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImagePathOfUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Designation)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BloodGroup)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CardNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CompanyName)
+                </th>
+
+
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.IdentityCards)
+            {
+                var imageUrl = "~/image/user/" + (item.ImagePathOfUser ?? "noimage.jpg");
+
+                <tr>
+                    <td>
+                        <img style="height: 30px; width: 55px" class="card-img-top" src="@imageUrl" asp-append-version="true" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Designation.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BloodGroup.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CardNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompanyName)
+                    </td>
+
+                    <td>
+                        <a class="button-green mr-2" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>|
+                        <a class="text-info" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-print" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        </div>
+    </div>
+    }
+
+
+    else
+    {
+    <div class="text-center ml-auto mr-auto mt-3">
+        <h1 class="display-4 mt-5 mb-5">Welcome</h1>
+        <h3 class="display-4 mb-5">To</h3>
+        <img class="mb-5 col-md-10" src="~/image/ba-2.png" />
+    </div>
+    }
+
+    @section Scripts{
+        <script src="~/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#cardTable').dataTable({
+
+                });
+            });
+        </script>
+    }

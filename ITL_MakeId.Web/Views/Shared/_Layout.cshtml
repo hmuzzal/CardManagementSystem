@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ITL</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-dark border-bottom box-shadow">
+            <partial name="_NavbarPartial" />
+        </nav>
+    </header>
+
+    <div class="mx-auto mb-5">
+        <div class="row m-0">
+            @RenderBody()
+
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted text-center">
+        <div class="container">
+            &copy; @DateTime.Now.ToString("yyyy") - <span><a href="https://www.intertechbd.com/">Interlink Technologies Ltd.</a></span>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
