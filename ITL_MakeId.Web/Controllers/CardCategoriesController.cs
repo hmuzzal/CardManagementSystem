@@ -22,7 +22,7 @@ namespace ITL_MakeId.Web.Controllers
         // GET: CardCategories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CardCategorys.ToListAsync());
+            return View(await _context.CardCategories.ToListAsync());
         }
 
         // GET: CardCategories/Details/5
@@ -33,7 +33,7 @@ namespace ITL_MakeId.Web.Controllers
                 return NotFound();
             }
 
-            var cardCategory = await _context.CardCategorys
+            var cardCategory = await _context.CardCategories
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cardCategory == null)
             {
@@ -73,7 +73,7 @@ namespace ITL_MakeId.Web.Controllers
                 return NotFound();
             }
 
-            var cardCategory = await _context.CardCategorys.FindAsync(id);
+            var cardCategory = await _context.CardCategories.FindAsync(id);
             if (cardCategory == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace ITL_MakeId.Web.Controllers
                 return NotFound();
             }
 
-            var cardCategory = await _context.CardCategorys
+            var cardCategory = await _context.CardCategories
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cardCategory == null)
             {
@@ -139,15 +139,15 @@ namespace ITL_MakeId.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cardCategory = await _context.CardCategorys.FindAsync(id);
-            _context.CardCategorys.Remove(cardCategory);
+            var cardCategory = await _context.CardCategories.FindAsync(id);
+            _context.CardCategories.Remove(cardCategory);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CardCategoryExists(int id)
         {
-            return _context.CardCategorys.Any(e => e.Id == id);
+            return _context.CardCategories.Any(e => e.Id == id);
         }
     }
 }

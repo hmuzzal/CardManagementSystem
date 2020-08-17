@@ -9,6 +9,13 @@ namespace ITL_MakeId.Model.ViewModel
     public class IdentityCardViewModel
 
     {
+  
+        [Required(ErrorMessage = "Please, Select card category first")]
+        public int CardCategoryId { get; set; }
+
+        [Display(Name = "Card Category")]
+        public CardCategory CardCategory { get; set; }
+
         [Required(ErrorMessage = "Please, Enter your name")]
         public string Name { get; set; }
 
@@ -30,7 +37,7 @@ namespace ITL_MakeId.Model.ViewModel
         public string CardNumber { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [Display(Name = "User Image")]
         //[Required(ErrorMessage = "Please, Select your image")]

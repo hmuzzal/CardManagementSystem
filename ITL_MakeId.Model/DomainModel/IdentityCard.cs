@@ -19,6 +19,8 @@ namespace ITL_MakeId.Model.DomainModel
 
         public int Id { get; set; }
 
+        public int CardCategoryId { get; set; }
+        public CardCategory CardCategory { get; set; }
         public string Name { get; set; }
 
         public int DesignationId { get; set; }
