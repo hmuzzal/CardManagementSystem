@@ -67,7 +67,7 @@
 }
 
 .form-card {
-    background: white;
+    background-image: url('../Image/idcard_background.jpg');
     -ms-border-radius: 25px;
     border-radius: 25px;
     min-width: 280px;
