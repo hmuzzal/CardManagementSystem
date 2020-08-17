@@ -23,13 +23,13 @@
                 <div class="form-group col-md-6 float-left">
                     <div class="form-group">
                         <label asp-for="CardCategory" class="control-label"></label>
-                        <select id="categoryId" asp-for="CardCategoryId" class="form-control" asp-items="ViewBag.CardCategories"> <option disabled selected>-- Select Category First --</option></select>
+                        <select id="categoryId" asp-for="CardCategoryId" class="form-control" asp-items="ViewBag.CardCategories"> <option disabled selected>Select Category First</option></select>
                         <span asp-validation-for="CardCategory" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input id="nameId" asp-for="Name" class="form-control" />
+                        <input id="nameId" asp-for="Name" class="form-control" placeholder="Enter your Name"/>
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     @*<div class="form-group">
@@ -40,7 +40,7 @@
 
                     <div class="form-group">
                         <label asp-for="BloodGroup" class="control-label"></label>
-                        <select id="bloodId" asp-for="BloodGroupId" class="form-control" asp-items="ViewBag.BloodGroups"></select>
+                        <select id="bloodId" asp-for="BloodGroupId" class="form-control" asp-items="ViewBag.BloodGroups"><option disabled selected>Select Blood Group</option></select>
                         <span asp-validation-for="BloodGroup" class="text-danger"></span>
                     </div>
 
@@ -52,13 +52,13 @@
 
 
                     @*<div class="form-group">
-            <label asp-for="ImagePathOfUser" class="control-label"></label>
-            <div class="custom-file">
-                <input asp-for="ImagePathOfUser" class="form-control custom-file-input" onchange="loadFile(event)" />
-                <label class="custom-file-label">Choose Image...</label>
-                <span asp-validation-for="ImagePathOfUser" class="text-danger"></span>
-            </div>
-        </div>*@
+                        <label asp-for="ImagePathOfUser" class="control-label"></label>
+                        <div class="custom-file">
+                            <input asp-for="ImagePathOfUser" class="form-control custom-file-input" onchange="loadFile(event)" />
+                            <label class="custom-file-label">Choose Image...</label>
+                            <span asp-validation-for="ImagePathOfUser" class="text-danger"></span>
+                        </div>
+                    </div>*@
 
                 </div>
       
@@ -66,7 +66,7 @@
                 <div class="form-group col-md-6 float-left">
                     <div class="form-group">
                         <label asp-for="Designation" class="control-label"></label>
-                        <select id="desId" asp-for="DesignationId" class="form-control" asp-items="ViewBag.Designations"></select>
+                        <select id="desId" asp-for="DesignationId" class="form-control" asp-items="ViewBag.Designations"><option disabled selected>Select Designation</option></select>
                         <span asp-validation-for="Designation" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -119,7 +119,7 @@
 
 @section Scripts{
 
-    <script src="~/js/uploadimage.js"></script>
+    @*<script src="~/js/uploadimage.js"></script>*@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>

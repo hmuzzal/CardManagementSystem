@@ -1,124 +1,159 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
+﻿@inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-@model ITL_MakeId.Model.DomainModel.IdentityCard
+@model    ITL_MakeId.Model.ViewModel.IdentityCardEditViewModel
+    @*@model ITL_MakeId.Model.DomainModel.IdentityCard*@
 
-@{
-    ViewData["Title"] = "Edit";
-}
+    @{
+        Layout = "_CardLayout";
+        ViewData["Title"] = "Edit";
+        var imageUrl = "/image/user/" + (Model.IdentityCard.ImagePathOfUser ?? "noimage.jpg");
+        //var imageUrl = "~/image/user/" + (item.ImagePathOfUser ?? "noimage.jpg");
+    }
 
 
-@if (SignInManager.IsSignedIn(User))
-{
-    <div class="col-md-6 mr-auto ml-auto p-0 mt-3 mb-5">
-        <h3 class="formbar mb-0">Validity</h3>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div class="col-md-6 mr-auto ml-auto p-0 mt-3 mb-5">
+            <h3 class="formbar mb-0">Validity</h3>
 
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Captured Photo</div>
-                <div class="panel-body">
-                    <div id="results">Your captured image will appear here...</div>
+            @*<div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Captured Photo</div>
+                        <div class="panel-body">
+                            <div id="results">Your captured image will appear here...</div>
+                        </div>
+                        <br />
+                        <br />
+                    </div>
+                </div>*@
+
+            <div class="col-md-8">
+                <div class="col-md-3">
+                 <img src="@imageUrl" class="upload-box border border-info" id="output" />
                 </div>
-                <br />
-                <br />
+            </div>
+
+            <div class="col-md-12 form-bg mb-5">
+                <dl class="row col-md-6">
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.IdentityCard.Name)
+                    </dt>
+                    <dd class="col-sm-6">
+                        @Html.DisplayFor(model => model.IdentityCard.Name)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.IdentityCard.Designation)
+                    </dt>
+                    <dd class="col-sm-6">
+                        @Html.DisplayFor(model => model.IdentityCard.Designation.Title)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.IdentityCard.BloodGroup)
+                    </dt>
+                    <dd class="col-sm-6">
+                        @Html.DisplayFor(model => model.IdentityCard.BloodGroup.Name)
+                    </dd>
+                    <dt class="col-sm-5">
+                        @Html.DisplayNameFor(model => model.IdentityCard.CardNumber)
+                    </dt>
+                    <dd class="col-sm-6">
+                        @Html.DisplayFor(model => model.IdentityCard.CardNumber)
+                    </dd>
+                </dl>
+
+                <form enctype="multipart/form-data" asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="IdentityCard.Id" />
+                    <input type="hidden" asp-for="Name" />
+                    <input type="hidden" asp-for="Department" />
+                    <input type="hidden" asp-for="DateOfBirth" />
+                    <div class="form-group">
+                        <label class="control-label"> Start Date</label>
+                        <input asp-for="IdentityCard.ValidationStartDate" class="form-control" />
+                        <span asp-validation-for="IdentityCard.ValidationStartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"> End Date</label>
+                        <input asp-for="IdentityCard.ValidationEndDate" class="form-control" />
+                        <span asp-validation-for="IdentityCard.ValidationEndDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ImagePathOfUser" class="control-label"></label>
+                        <div class="custom-file">
+                            <input asp-for="ImagePathOfUser" class="form-control custom-file-input" onchange="loadFile(event)" />
+                            @if (Model.IdentityCard.ImagePathOfUser == null)
+                            {
+                                <label class="custom-file-label">Choose Image...</label>
+                            }
+                            else
+                            {
+                                <label class="custom-file-label">Change Image...</label>
+                            }
+                            <span asp-validation-for="ImagePathOfUser" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <input type="button" class="btn btn-success" value="Take Snapshot" onClick="take_snapshot()">
+                        <input type="button" class="btn btn-success" value="Take Signature" onClick="take_snapshot()">
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                <a asp-action="Index">Back to List</a>
             </div>
         </div>
+    }
 
-        <div class="col-md-12 form-bg mb-5">
-            <dl class="row col-md-6">
-                <dt class="col-sm-5">
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
-                <dd class="col-sm-6">
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-                <dt class="col-sm-5">
-                    @Html.DisplayNameFor(model => model.Designation)
-                </dt>
-                <dd class="col-sm-6">
-                    @Html.DisplayFor(model => model.Designation.Title)
-                </dd>
-                <dt class="col-sm-5">
-                    @Html.DisplayNameFor(model => model.BloodGroup)
-                </dt>
-                <dd class="col-sm-6">
-                    @Html.DisplayFor(model => model.BloodGroup.Name)
-                </dd>
-                <dt class="col-sm-5">
-                    @Html.DisplayNameFor(model => model.CardNumber)
-                </dt>
-                <dd class="col-sm-6">
-                    @Html.DisplayFor(model => model.CardNumber)
-                </dd>
-            </dl>
 
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Id" />
-                <div class="form-group">
-                    <label class="control-label"> Start Date</label>
-                    <input asp-for="ValidationStartDate" class="form-control" />
-                    <span asp-validation-for="ValidationStartDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label"> End Date</label>
-                    <input asp-for="ValidationEndDate" class="form-control" />
-                    <span asp-validation-for="ValidationEndDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                    <input type="button" class="btn btn-success" value="Take Snapshot" onClick="take_snapshot()">
-                </div>
-            </form>
+    else
+    {
+        <div class="text-center ml-auto mr-auto mt-3">
+            <h1 class="display-4 mt-5 mb-5">Welcome</h1>
+            <h3 class="display-4 mb-5">To</h3>
+            <img class="mb-5 col-md-10" src="~/image/ba-2.png" />
         </div>
-
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
-    </div>
-}
+    }
 
 
-else
-{
-    <div class="text-center ml-auto mr-auto mt-3">
-        <h1 class="display-4 mt-5 mb-5">Welcome</h1>
-        <h3 class="display-4 mb-5">To</h3>
-        <img class="mb-5 col-md-10" src="~/image/ba-2.png" />
-    </div>
-}
-@section Scripts{
-    <script src="~/webcamjs/webcam.js"></script>
 
-    <script language="JavaScript">
-        Webcam.set({
-            width: 320,
-            height: 240,
-            image_format: 'jpeg',
-            jpeg_quality: 90
-        });
-        Webcam.attach('#my_camera');
-    </script>
-    <!-- Code to handle taking the snapshot and displaying it locally -->
-    <script language="JavaScript">
-        function take_snapshot() {
-            // take snapshot and get image data
-            Webcam.snap(function (data_uri) {
-                // display results in page
-                document.getElementById('results').innerHTML =
-                    '<img src="' +
-                    data_uri +
-                    '"/>';
+    @section Scripts{
+        <script src="~/js/uploadimage.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        @*<script src="~/webcamjs/webcam.js"></script>*@
 
-                Webcam.upload(data_uri,
-                    '/Camera/Capture',
-                    function (code, text) {
-                        alert('Photo Captured');
-                    });
-
+        <!--<script language="JavaScript">
+            Webcam.set({
+                width: 320,
+                height: 240,
+                image_format: 'jpeg',
+                jpeg_quality: 90
             });
-        }
-    </script>
+            Webcam.attach('#my_camera');
+        </script>-->
+        <!-- Code to handle taking the snapshot and displaying it locally -->
+        <!--<script language="JavaScript">
+            function take_snapshot() {
+                // take snapshot and get image data
+                Webcam.snap(function (data_uri) {
+                    // display results in page
+                    document.getElementById('results').innerHTML =
+                        '<img src="' +
+                        data_uri +
+                        '"/>';
 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+                    Webcam.upload(data_uri,
+                        '/Camera/Capture',
+                        function (code, text) {
+                            alert('Photo Captured');
+                        });
+
+                });
+            }
+        </script>-->
+
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

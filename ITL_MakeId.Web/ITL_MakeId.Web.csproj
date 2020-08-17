@@ -25,6 +25,7 @@
     <PackageReference Include="Newtonsoft.JsonResult" Version="1.0.5778.10762" />
     <PackageReference Include="QRCoder" Version="1.3.9" />
     <PackageReference Include="Rotativa" Version="1.6.4" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>

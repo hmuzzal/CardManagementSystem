@@ -10,14 +10,15 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using Controller = Microsoft.AspNetCore.Mvc.Controller;
-using SelectList = Microsoft.AspNetCore.Mvc.Rendering.SelectList;
+using ExcelDataReader;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace ITL_MakeId.Web.Controllers
 {
     [Authorize]
-    public class CardsController : Controller
+    public class CardsController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -238,68 +239,114 @@ namespace ITL_MakeId.Web.Controllers
                 return NotFound();
             }
 
-            var identityCard = await _context.IdentityCards.Include(c => c.BloodGroup)
+            IdentityCardEditViewModel identityCard = new IdentityCardEditViewModel();
+
+            identityCard.IdentityCard = await _context.IdentityCards.Include(c => c.BloodGroup)
                 .Include(c => c.Designation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (identityCard == null)
             {
                 return NotFound();
             }
+           
             return View(identityCard);
         }
 
         [Authorize]
         [Microsoft.AspNetCore.Mvc.HttpPost]
         [Microsoft.AspNetCore.Mvc.ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Microsoft.AspNetCore.Mvc.Bind("Id,ValidationStartDate,ValidationEndDate")] IdentityCard identityCard)
+        public async Task<IActionResult> Edit(int id, IdentityCardEditViewModel viewModel)
         {
 
-            if (id != identityCard.Id)
+            if (id != viewModel.IdentityCard.Id)
             {
                 return NotFound();
             }
 
+
+            string uniqueFileName = null;
+            string uniqueFileNameSignature = null;
+            //string uniqueFileNameAuthorizedSignature = null;
+            //string uniqueFileNameCompanyLogo = null;
+
+
+
+            //&& viewModel.ImagePathOfUserSignature != null
+            if (viewModel.ImagePathOfUser != null )
+            {
+                string uplaodsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "image/user/");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + viewModel.ImagePathOfUser.FileName;
+                filePath = Path.Combine(uplaodsFolder, uniqueFileName);
+
+                //string uplaodsFolderSignature = Path.Combine(_webHostEnvironment.WebRootPath, "image/sig/");
+                //uniqueFileNameSignature = Guid.NewGuid().ToString() + "_" + viewModel.ImagePathOfUserSignature.FileName;
+                //filePathSignature = Path.Combine(uplaodsFolderSignature, uniqueFileNameSignature);
+
+                //string uplaodsFolderAuthSignature = Path.Combine(_webHostEnvironment.WebRootPath, "image/auth/");
+                //uniqueFileNameAuthorizedSignature = "9536f8a1-d3ad-41b6-8448-e748bb33f589_authsign.jpg";
+
+                //string uplaodsFolderLogo = Path.Combine(_webHostEnvironment.WebRootPath, "image/logo/");
+                //uniqueFileNameCompanyLogo = "68837796-1410-4966-a0bb-562e4b44c854_Logo.jpg";
+
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    viewModel.ImagePathOfUser.CopyTo(stream);
+                }
+
+                //using (var stream = new FileStream(filePathSignature, FileMode.Create))
+                //{
+                //    viewModel.ImagePathOfUserSignature.CopyTo(stream);
+                //}
+
+            }
+
+
             IdentityCard model = new IdentityCard();
+
+
             model = await _context.IdentityCards.Include(c => c.BloodGroup)
                 .Include(c => c.Designation)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
 
-            if (identityCard.ValidationStartDate == null)
+
+            if (viewModel.IdentityCard.ValidationStartDate == null)
             {
-                identityCard.Id = model.Id;
-                identityCard.Name = model.Name;
-                identityCard.Designation = model.Designation;
-                identityCard.BloodGroup = model.BloodGroup;
-                identityCard.CardNumber = model.CardNumber;
+                viewModel.IdentityCard.Id = model.Id;
+                viewModel.IdentityCard.Name = model.Name;
+                viewModel.IdentityCard.Designation = model.Designation;
+                viewModel.IdentityCard.BloodGroup = model.BloodGroup;
+                viewModel.IdentityCard.CardNumber = model.CardNumber;
 
 
                 ModelState.AddModelError(string.Empty, "Enter valid start date");
-                return View(identityCard);
+                return View(viewModel);
             }
 
-            if (identityCard.ValidationEndDate == null)
+            if (viewModel.IdentityCard.ValidationEndDate == null)
             {
-                identityCard.Id = model.Id;
-                identityCard.Name = model.Name;
-                identityCard.Designation = model.Designation;
-                identityCard.BloodGroup = model.BloodGroup;
-                identityCard.CardNumber = model.CardNumber;
+                viewModel.IdentityCard.Id = model.Id;
+                viewModel.IdentityCard.Name = model.Name;
+                viewModel.IdentityCard.Designation = model.Designation;
+                viewModel.IdentityCard.BloodGroup = model.BloodGroup;
+                viewModel.IdentityCard.CardNumber = model.CardNumber;
 
                 ModelState.AddModelError(string.Empty, "Enter valid end date");
-                return View(identityCard);
+                return View(viewModel);
             }
 
-            if (identityCard.ValidationEndDate < identityCard.ValidationStartDate)
+            if (viewModel.IdentityCard.ValidationEndDate < viewModel.IdentityCard.ValidationStartDate)
             {
-                identityCard.Id = model.Id;
-                identityCard.Name = model.Name;
-                identityCard.Designation = model.Designation;
-                identityCard.BloodGroup = model.BloodGroup;
-                identityCard.CardNumber = model.CardNumber;
+                viewModel.IdentityCard.Id = model.Id;
+                viewModel.IdentityCard.Name = model.Name;
+                viewModel.IdentityCard.Designation = model.Designation;
+                viewModel.IdentityCard.BloodGroup = model.BloodGroup;
+                viewModel.IdentityCard.CardNumber = model.CardNumber;
+                
 
                 ModelState.AddModelError(string.Empty, "End date is not valid");
-                return View(identityCard);
+                return View(viewModel);
             }
             else
             {
@@ -312,8 +359,11 @@ namespace ITL_MakeId.Web.Controllers
                         //    .Include(c => c.Designation)
                         //    .FirstOrDefaultAsync(m => m.Id == id);
 
-                        model.ValidationStartDate = identityCard.ValidationStartDate;
-                        model.ValidationEndDate = identityCard.ValidationEndDate;
+                        model.ValidationStartDate = viewModel.IdentityCard.ValidationStartDate;
+                        model.ValidationEndDate = viewModel.IdentityCard.ValidationEndDate;
+                        model.ValidationEndDate = viewModel.IdentityCard.ValidationEndDate;
+                        model.ImagePathOfUser = uniqueFileName;
+                        model.ImagePathOfUserSignature = uniqueFileNameSignature;
 
                         _context.Update(model);
                         var save = await _context.SaveChangesAsync();
@@ -321,7 +371,7 @@ namespace ITL_MakeId.Web.Controllers
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!IdentityCardExists(identityCard.Id))
+                        if (!IdentityCardExists(viewModel.IdentityCard.Id))
                         {
                             return NotFound();
                         }
@@ -335,7 +385,7 @@ namespace ITL_MakeId.Web.Controllers
                 }
             }
 
-            return View(identityCard);
+            return View(viewModel);
         }
 
 
@@ -385,49 +435,5 @@ namespace ITL_MakeId.Web.Controllers
                 return BadRequest();
             }
         }
-
-
-        //private List<Employee> GetDataFromCSVFile(Stream stream)
-        //{
-        //    var empList = new List<Employee>();
-        //    try
-        //    {
-        //        using (var reader = ExcelReaderFactory.CreateCsvReader(stream))
-        //        {
-        //            var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
-        //            {
-        //                ConfigureDataTable = _ => new ExcelDataTableConfiguration
-        //                {
-        //                    UseHeaderRow = true // To set First Row As Column Names  
-        //                }
-        //            });
-
-        //            if (dataSet.Tables.Count > 0)
-        //            {
-        //                var dataTable = dataSet.Tables[0];
-        //                foreach (DataRow objDataRow in dataTable.Rows)
-        //                {
-        //                    if (objDataRow.ItemArray.All(x => string.IsNullOrEmpty(x?.ToString()))) continue;
-        //                    empList.Add(new Employee()
-        //                    {
-        //                        Id = Convert.ToInt32(objDataRow["ID"].ToString()),
-        //                        EmpName = objDataRow["Name"].ToString(),
-        //                        Position = objDataRow["Position"].ToString(),
-        //                        Location = objDataRow["Location"].ToString(),
-        //                        Age = Convert.ToInt32(objDataRow["Age"].ToString()),
-        //                        Salary = Convert.ToInt32(objDataRow["Salary"].ToString()),
-        //                    });
-        //                }
-        //            }
-
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-
-        //    return empList;
-        //}
     }
 }

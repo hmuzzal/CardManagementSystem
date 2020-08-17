@@ -1,30 +1,27 @@
-﻿using ITL_MakeId.Model.DomainModel;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ITL_MakeId.Model.DomainModel;
+using Microsoft.AspNetCore.Http;
 
 namespace ITL_MakeId.Model.ViewModel
 {
-    public class IdentityCardViewModel
+    public class IdentityCardEditViewModel
 
     {
-  
+
         [Required(ErrorMessage = "Please, Select card category first")]
         public int CardCategoryId { get; set; }
 
         [Display(Name = "Card Category")]
         public CardCategory CardCategory { get; set; }
 
-        [Required(ErrorMessage = "Please, Enter your name")]
         public string Name { get; set; }
 
         [Display(Name = "Designation")]
         [Required(ErrorMessage = "Please, Select your designation")]
         public int DesignationId { get; set; }
         public Designation Designation { get; set; }
-        
-        [Required(ErrorMessage = "Please, Enter your Department")]
         public string Department { get; set; }
 
         [Required(ErrorMessage = "Please, Select your blood group")]
@@ -37,10 +34,9 @@ namespace ITL_MakeId.Model.ViewModel
         public string CardNumber { get; set; }
 
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Please, select date of birth")]
         public DateTime? DateOfBirth { get; set; }
 
-        [Display(Name = "Image")]
+        [Display(Name = "User Image")]
         //[Required(ErrorMessage = "Please, Select your image")]
         public IFormFile ImagePathOfUser { get; set; }
 
@@ -66,7 +62,7 @@ namespace ITL_MakeId.Model.ViewModel
         public DateTime ValidationEndDate { get; set; }
         public DateTime IssueDate { get; set; }
 
-        
+
         public string GetCardNumber(string dbCardNumber)
         {
             if (dbCardNumber == null)
@@ -100,7 +96,7 @@ namespace ITL_MakeId.Model.ViewModel
         public IdentityCard IdentityCard { get; set; }
 
         public IEnumerable<IdentityCard> IdentityCards { get; set; }
-        public IdentityCardViewModel()
+        public IdentityCardEditViewModel()
         {
             IdentityCard = new IdentityCard();
             IdentityCards = new List<IdentityCard>();
