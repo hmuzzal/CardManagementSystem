@@ -389,6 +389,80 @@ namespace ITL_MakeId.Web.Controllers
         }
 
 
+        public async Task<IActionResult> CardEdit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            IdentityCardViewModel viewModel=new IdentityCardViewModel();
+            viewModel.IdentityCard = await _context.IdentityCards.FindAsync(id);
+            if (viewModel.IdentityCard == null)
+            {
+                return NotFound();
+            }
+            ViewData["BloodGroupId"] = new SelectList(_context.BloodGroups, "Id", "Id", viewModel.IdentityCard.BloodGroupId);
+            ViewData["CardCategoryId"] = new SelectList(_context.CardCategories, "Id", "Id", viewModel.IdentityCard.CardCategoryId);
+            ViewData["DesignationId"] = new SelectList(_context.Designations, "Id", "Id", viewModel.IdentityCard.DesignationId);
+            return View(viewModel);
+        }
+         
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CardEdit(int id, [Bind("Id,CardCategoryId,Name,DesignationId,Department,BloodGroupId,CardNumber,DateOfBirth,ImagePathOfUser,ImagePathOfUserSignature,ImagePathOfAuthorizedSignature,CompanyName,CompanyAddress,CompanyLogoPath,CardInfo,ValidationStartDate,ValidationEndDate,IssueDate")] IdentityCardViewModel viewModel)
+        {
+            if (id != viewModel.IdentityCard.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    IdentityCard identityCard=new IdentityCard();
+                    viewModel.IdentityCard.CardCategoryId= identityCard.CardCategoryId;
+                    viewModel.IdentityCard.Name = identityCard.Name;
+                    viewModel.IdentityCard.DesignationId = identityCard.DesignationId;
+                    viewModel.IdentityCard.Department = identityCard.Department;
+                    viewModel.IdentityCard.BloodGroupId = identityCard.BloodGroupId;
+                    viewModel.IdentityCard.CardNumber = identityCard.CardNumber;
+                    viewModel.IdentityCard.DateOfBirth = identityCard.DateOfBirth;
+                    viewModel.IdentityCard.ImagePathOfUser = identityCard.ImagePathOfUser;
+                    viewModel.IdentityCard.ImagePathOfUserSignature = identityCard.ImagePathOfUserSignature;
+                    viewModel.IdentityCard.ImagePathOfAuthorizedSignature = identityCard.ImagePathOfAuthorizedSignature;
+                    viewModel.IdentityCard.CompanyName = identityCard.CompanyName;
+                    viewModel.IdentityCard.CompanyAddress = identityCard.CompanyAddress;
+                    viewModel.IdentityCard.CompanyLogoPath = identityCard.CompanyLogoPath;
+                    viewModel.IdentityCard.CardInfo = identityCard.CardInfo;
+                    viewModel.IdentityCard.ValidationStartDate = identityCard.ValidationStartDate;
+                    viewModel.IdentityCard.ValidationEndDate = identityCard.ValidationEndDate;
+
+
+                    _context.Update(viewModel.IdentityCard);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!IdentityCardExists(viewModel.IdentityCard.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CardCategoryId"] = new SelectList(_context.CardCategories, "Id", "Id", viewModel.IdentityCard.CardCategoryId);
+            ViewData["DesignationId"] = new SelectList(_context.Designations, "Id", "Id", viewModel.IdentityCard.DesignationId);
+            return View(viewModel);
+        }
+
+
         public async Task<IActionResult> Delete(int? id)
         {
             var identityCard = await _context.IdentityCards.FindAsync(id);

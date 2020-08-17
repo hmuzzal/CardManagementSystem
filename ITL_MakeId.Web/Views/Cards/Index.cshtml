@@ -75,7 +75,8 @@
                     </td>
 
                     <td>
-                        <a class="button-green mr-2" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>|
+                        <a class="button-info mr-2" asp-action="CardEdit" asp-route-id="@item.Id"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>|
+                        <a class="button-green mr-2" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-check-square" aria-hidden="true"></i></a>|
                         <a class="text-info" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-print" aria-hidden="true"></i></a> |
                         <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete this?')"><i class="fa fa-trash" aria-hidden="true"></i></a>
                     </td>

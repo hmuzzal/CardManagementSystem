@@ -1,0 +1,131 @@
+﻿@model IEnumerable<ITL_MakeId.Model.DomainModel.IdentityCard>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CardCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Designation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BloodGroup)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CardNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagePathOfUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagePathOfUserSignature)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagePathOfAuthorizedSignature)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyLogoPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CardInfo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValidationStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValidationEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IssueDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CardCategory.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Designation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BloodGroup.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CardNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImagePathOfUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImagePathOfUserSignature)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImagePathOfAuthorizedSignature)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyLogoPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CardInfo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValidationStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValidationEndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IssueDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
