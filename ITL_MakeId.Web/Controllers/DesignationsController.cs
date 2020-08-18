@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ITL_MakeId.Data;
+using ITL_MakeId.Model.DomainModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using ITL_MakeId.Data;
-using ITL_MakeId.Model.DomainModel;
 
 namespace ITL_MakeId.Web.Controllers
 {
@@ -116,28 +113,8 @@ namespace ITL_MakeId.Web.Controllers
             return View(designation);
         }
 
-        // GET: Designations/Delete/5
+
         public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var designation = await _context.Designations
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (designation == null)
-            {
-                return NotFound();
-            }
-
-            return View(designation);
-        }
-
-        // POST: Designations/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var designation = await _context.Designations.FindAsync(id);
             _context.Designations.Remove(designation);

@@ -4,27 +4,27 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
 
-<h4>Designation</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="col-md-6 mr-auto ml-auto p-0 mt-3 mb-5">
+
+    <h3 class="formbar mb-0">Designation</h3>
+    <div class="col-md-12 form-bg">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
+                <input asp-for="Title" class="form-control" placeholder="Designation Title"/>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
-    </div>
-</div>
+        
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    </div>
 </div>
 

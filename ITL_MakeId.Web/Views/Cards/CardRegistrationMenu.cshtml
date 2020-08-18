@@ -1,11 +1,21 @@
 ﻿
 @{
-    ViewData["Title"] = "CardRegistrationMenu";
+    Layout = "_CardLayout";
+    ViewData["Title"] = "Registration";
 }
 
-<h1>CardRegistrationMenu</h1>
+<div class="col-md-6 mr-auto ml-auto p-0 mt-3 mb-5">
+
+<h3 class="formbar mb-0">Registration</h3>
+    <div class="col-md-12 form-bg text-center">
+        <div class="pt-4 pb-2">
+            <a class="text-capitalize font-weight-bold" asp-area="" asp-controller="Cards" asp-action="Create">Card Registration (Single Entry)</a>
+        </div> 
+        <div class="pb-4">
+            <a class="text-capitalize font-weight-bold" asp-area="" asp-controller="Cards" asp-action="Excel">Card Registration (Bulk Entry)</a>
+        </div>
+    </div>
+</div>
 
 
 
-<a class="dropdown-item" asp-area="" asp-controller="Cards" asp-action="Create">Card Registration (Single Entry)</a>
-<a class="dropdown-item" asp-area="" asp-controller="Cards" asp-action="Excel">Card Registration (Bulk Entry)</a>

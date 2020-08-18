@@ -8,10 +8,21 @@
 <div class="col-md-6 mr-auto ml-auto p-0 mt-3 mb-5">
     <h3 class="formbar mb-0">Bulk Entry</h3>
     <div class="col-md-12 form-bg">
-        
+
+        @if (ViewBag.Message != null)
+        {
+            <p class="alert alert-success" id="successMessage">@ViewBag.Message!</p>
+            <p class="alert alert-success" id="">Now, Click On "Give Card Number"!</p>
+        }
+
+        @if (ViewBag.Info != null)
+        {
+    <p class="alert alert-success" id="info">@ViewBag.Info!</p>
+        }
+
         <form asp-controller="Cards" asp-action="Excel" method="post" enctype="multipart/form-data" class="pt-3 mb-3">
-            <input class="btn btn-info" type="file" class="" name="postedFile"/>
-            <input class="btn btn-success"type="submit" value="Import" />
+            <input class="btn btn-info" type="file" class="" name="postedFile" />
+            <input class="btn btn-success" type="submit" value="Import" />
         </form>
 
 
@@ -24,3 +35,14 @@
 </div>
 
 
+
+@section Scripts{
+    <script>
+        $(function(){
+            $('#successMessage').hide(2500);
+        });
+        $(function () {
+            $('#info').hide(2500);
+        });
+    </script>
+}

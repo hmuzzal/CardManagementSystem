@@ -595,22 +595,17 @@ namespace ITL_MakeId.Web.Controllers
 
                         //[OPTIONAL]: Map the Excel columns with that of the database table.
                         //sqlBulkCopy.ColumnMappings.Add("Id", "Id");
-                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
-                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
-                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
-                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
-                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
-                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
-                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
-                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
-
-                        //Id Name    DesignationId Department  BloodGroupId CardNumber  ImagePathOfUser ImagePathOfUserSignature    ImagePathOfAuthorizedSignature CompanyName CompanyAddress CompanyLogoPath CardInfo ValidationStartDate ValidationEndDate DateOfBirth IssueDate CardCategoryId
-                       
-
+                        sqlBulkCopy.ColumnMappings.Add("Name", "Name");
+                        sqlBulkCopy.ColumnMappings.Add("Designation", "DesignationId");
+                        sqlBulkCopy.ColumnMappings.Add("Department", "Department");
+                        sqlBulkCopy.ColumnMappings.Add("BloodGroup", "BloodGroupId");
+                        sqlBulkCopy.ColumnMappings.Add("DOB", "DateOfBirth");
+                        sqlBulkCopy.ColumnMappings.Add("Category", "CardCategoryId");
 
                         con.Open();
                         sqlBulkCopy.WriteToServer(dt);
                         con.Close();
+                        ViewBag.Message = "Imported Successfully";
                     }
                 }
             }
@@ -630,9 +625,17 @@ namespace ITL_MakeId.Web.Controllers
             foreach (var card in cards)
             {
                 card.CardNumber = viewModel.GetCardNumber(lastcardNumber);
+                card.CompanyName = "Interlink Technologies Ltd.";
+                card.CardInfo = "This card should be used by card holder only. If this card is found ownerless, please, return" +
+                                "it to the issuing authority. This card is not transferable to anybody.";
+                card.CompanyAddress = "Office No. 801 (7th Floor) 1205, 185 Sonargaon Road, Dhaka";
+                card.CompanyLogoPath = "";
+                card.ImagePathOfAuthorizedSignature = "";
                 _context.Update(card);
                 var save = await _context.SaveChangesAsync();
                 lastcardNumber = viewModel.GetCardNumber(lastcardNumber);
+
+                ViewBag.Info = "Process Completed";
             }
 
             return View("Excel");

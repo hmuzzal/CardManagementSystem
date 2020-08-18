@@ -1,36 +1,54 @@
 ﻿@model IEnumerable<ITL_MakeId.Model.DomainModel.Department>
 
 @{
-    ViewData["Title"] = "Card Categories";
+    ViewData["Title"] = "Department";
 }
 
 <link href="~/css/datatable.css" rel="stylesheet" />
 
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+<div class="col-md-10 m-auto">
+    <h1 class="text-center">Department</h1>
+
+    <div class="col-md-8 m-auto">
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table id="cardTable" class="table table-striped table-bordered" style="width: 100%">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-pencil-square" aria-hidden="true"></i></a> |
+                        <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete this?')"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#cardTable').dataTable({
+
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>
