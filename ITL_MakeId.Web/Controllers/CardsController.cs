@@ -528,12 +528,25 @@ namespace ITL_MakeId.Web.Controllers
 
         public IActionResult Excel()
         {
+             var cards = _context.IdentityCards.ToList().Where(c => c.CardNumber == null);
+
+            if (cards.Any())
+            {
+                ViewBag.Notes = "Card Exists without Card Number. Click On Give Card Number";
+            }
             return View();
         }
 
         [HttpPost]
         public IActionResult Excel(IFormFile postedFile)
         {
+            var cards = _context.IdentityCards.ToList().Where(c => c.CardNumber == null);
+
+
+            if (cards.Any())
+            {
+                ViewBag.Notes = "Card Exists without Card Number. Click On Give Card Number";
+            }
             if (postedFile != null)
             {
                 //Create a Folder.

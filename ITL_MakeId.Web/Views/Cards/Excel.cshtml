@@ -15,9 +15,9 @@
             <p class="alert alert-success" id="">Now, Click On "Give Card Number"!</p>
         }
 
-        @if (ViewBag.Info != null)
+        @if (ViewBag.Notes != null)
         {
-    <p class="alert alert-success" id="info">@ViewBag.Info!</p>
+    <p class="alert alert-success">@ViewBag.Notes</p>
         }
 
         <form asp-controller="Cards" asp-action="Excel" method="post" enctype="multipart/form-data" class="pt-3 mb-3">
