@@ -1,0 +1,9 @@
+﻿
+@{
+    ViewData["Title"] = "Excel";
+}
+
+<form asp-controller="Cards" asp-action="Excel" method="post" enctype="multipart/form-data">
+    <input type="file" name="postedFile"/>
+    <input type="submit" value="Import"/>
+</form>

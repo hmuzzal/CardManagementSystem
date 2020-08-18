@@ -29,12 +29,13 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item border-bottom" asp-area="" asp-controller="Departments" asp-action="Index">Department</a>
                     <a class="dropdown-item border-bottom" asp-area="" asp-controller="Designations" asp-action="Index">Designation</a>
-                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="CardCategories" asp-action="Index">Card Category</a>
+                    @*<a class="dropdown-item border-bottom" asp-area="" asp-controller="CardCategories" asp-action="Index">Card Category</a>*@
                 </div>
             </li>
 
-            @if (User.Identity.Name == "superadmin@itl.com" || User.Identity.Name == "admin@itl.com")
-            {
+
+            @*@if (User.Identity.Name == "superadmin@itl.com" || User.Identity.Name == "admin@itl.com")
+            {*@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Application User
@@ -43,7 +44,7 @@
                         <a class="dropdown-item border-bottom" asp-area="Identity" asp-page="/Account/Register">Create User</a>
                     </div>
                 </li>
-            }
+            //}
         }
 
         <li class="nav-item dropdown">
@@ -54,13 +55,15 @@
 
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="Cards" asp-action="Index">All User</a>
-                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="Cards" asp-action="UserRequestForCard">Request List For Card</a>
+                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="Cards" asp-action="Index">Card List</a>
+                    @*<a class="dropdown-item border-bottom" asp-area="" asp-controller="Cards" asp-action="UserRequestForCard">Request List For Card</a>
                     <a class="dropdown-item border-bottom" asp-area="" asp-controller="Cards" asp-action="ValidatedUsers">Verified Card Holders</a>
-                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="Cards" asp-action="ExpiredUserCards">Expired Card Holders</a>
+                    <a class="dropdown-item border-bottom" asp-area="" asp-controller="Cards" asp-action="ExpiredUserCards">Expired Card Holders</a>*@
 
                 }
-                <a class="dropdown-item" asp-area="" asp-controller="Cards" asp-action="Create">Register For Card</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Cards" asp-action="Create">Card Registration</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Camera" asp-action="Capture">Camera</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Cards" asp-action="Excel">Camera</a>
             </div>
         </li>
     </ul>

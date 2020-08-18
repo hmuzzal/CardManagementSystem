@@ -14,6 +14,11 @@ using ExcelDataReader;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
+using System.Data.OleDb;
+using System.Data.SqlClient;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace ITL_MakeId.Web.Controllers
 {
@@ -22,13 +27,15 @@ namespace ITL_MakeId.Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _configuration;
         private string filePath;
         private string filePathSignature;
 
-        public CardsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public CardsController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _configuration = configuration;
         }
 
 
@@ -508,6 +515,96 @@ namespace ITL_MakeId.Web.Controllers
             {
                 return BadRequest();
             }
+        }
+
+
+        public IActionResult Excel()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Excel(IFormFile postedFile)
+        {
+            if (postedFile != null)
+            {
+                //Create a Folder.
+                string path = Path.Combine(this._webHostEnvironment.WebRootPath, "Uploads");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                //Save the uploaded Excel file.
+                string fileName = Path.GetFileName(postedFile.FileName);
+                string filePath = Path.Combine(path, fileName);
+                using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+
+                //Read the connection string for the Excel file.
+                string conString = this._configuration.GetConnectionString("ExcelConString");
+                DataTable dt = new DataTable();
+                conString = string.Format(conString, filePath);
+
+                using (OleDbConnection connExcel = new OleDbConnection(conString))
+                {
+                    using (OleDbCommand cmdExcel = new OleDbCommand())
+                    {
+                        using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
+                        {
+                            cmdExcel.Connection = connExcel;
+
+                            //Get the name of First Sheet.
+                            connExcel.Open();
+                            DataTable dtExcelSchema;
+                            dtExcelSchema = connExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                            string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
+                            connExcel.Close();
+
+                            //Read Data from First Sheet.
+                            connExcel.Open();
+                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
+                            odaExcel.SelectCommand = cmdExcel;
+                            odaExcel.Fill(dt);
+                            connExcel.Close();
+                        }
+                    }
+                }
+
+                //Insert the Data read from the Excel file to Database Table.
+                conString = this._configuration.GetConnectionString("constr");
+                using (SqlConnection con = new SqlConnection(conString))
+                {
+                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
+                    {
+                        //Set the database table name.
+                        sqlBulkCopy.DestinationTableName = "dbo.IdentityCards";
+
+                        //[OPTIONAL]: Map the Excel columns with that of the database table.
+                        //sqlBulkCopy.ColumnMappings.Add("Id", "Id");
+                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
+                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
+                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
+                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
+                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
+                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
+                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
+                        //sqlBulkCopy.ColumnMappings.Add("Title", "Title");
+
+                        //Id Name    DesignationId Department  BloodGroupId CardNumber  ImagePathOfUser ImagePathOfUserSignature    ImagePathOfAuthorizedSignature CompanyName CompanyAddress CompanyLogoPath CardInfo ValidationStartDate ValidationEndDate DateOfBirth IssueDate CardCategoryId
+                       
+
+
+                        con.Open();
+                        sqlBulkCopy.WriteToServer(dt);
+                        con.Close();
+                    }
+                }
+            }
+
+            return View();
         }
     }
 }
