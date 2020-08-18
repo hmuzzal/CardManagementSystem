@@ -147,6 +147,12 @@ namespace ITL_MakeId.Web.Controllers
         }
 
 
+        public IActionResult CardRegistrationMenu()
+        {
+            return View();
+        }
+
+
         public IActionResult Create()
         {
             IdentityCardViewModel model = new IdentityCardViewModel();
@@ -219,6 +225,7 @@ namespace ITL_MakeId.Web.Controllers
                 identityCardViewModel.IdentityCard.CardCategoryId = identityCardViewModel.CardCategoryId;
                 identityCardViewModel.IdentityCard.BloodGroupId = identityCardViewModel.BloodGroupId;
                 identityCardViewModel.IdentityCard.CardNumber = identityCardViewModel.CardNumber;
+                identityCardViewModel.IdentityCard.DateOfBirth = identityCardViewModel.DateOfBirth;
                 //identityCardViewModel.IdentityCard.ImagePathOfUser = uniqueFileName;
                 //identityCardViewModel.IdentityCard.ImagePathOfUserSignature = uniqueFileNameSignature;
                 //identityCardViewModel.IdentityCard.ImagePathOfAuthorizedSignature = uniqueFileNameAuthorizedSignature;
@@ -369,6 +376,7 @@ namespace ITL_MakeId.Web.Controllers
                         model.ValidationStartDate = viewModel.IdentityCard.ValidationStartDate;
                         model.ValidationEndDate = viewModel.IdentityCard.ValidationEndDate;
                         model.ValidationEndDate = viewModel.IdentityCard.ValidationEndDate;
+              
                         model.ImagePathOfUser = uniqueFileName;
                         model.ImagePathOfUserSignature = uniqueFileNameSignature;
 
@@ -566,6 +574,9 @@ namespace ITL_MakeId.Web.Controllers
                             //Read Data from First Sheet.
                             connExcel.Open();
                             cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
+
+                            //cmdExcel.CommandText = "Update [" + sheetName + "] set CardNumber= 'ITL000'";
+
                             odaExcel.SelectCommand = cmdExcel;
                             odaExcel.Fill(dt);
                             connExcel.Close();
@@ -605,6 +616,26 @@ namespace ITL_MakeId.Web.Controllers
             }
 
             return View();
+        }
+
+        public async Task<IActionResult>  ProcessAfteBulkEntry()
+        {
+            var cards = _context.IdentityCards.ToList().Where(c => c.CardNumber == null);
+
+            var identitycardInfo = _context.IdentityCards.ToList().Where(c=>c.CardNumber!=null);
+            var lastcardNumber = identitycardInfo.LastOrDefault()?.CardNumber;
+
+            IdentityCardViewModel  viewModel=new IdentityCardViewModel();
+
+            foreach (var card in cards)
+            {
+                card.CardNumber = viewModel.GetCardNumber(lastcardNumber);
+                _context.Update(card);
+                var save = await _context.SaveChangesAsync();
+                lastcardNumber = viewModel.GetCardNumber(lastcardNumber);
+            }
+
+            return View("Excel");
         }
     }
 }

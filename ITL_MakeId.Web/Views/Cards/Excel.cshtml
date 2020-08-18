@@ -1,9 +1,26 @@
 ﻿
 @{
-    ViewData["Title"] = "Excel";
+    Layout = "_CardLayout";
+    ViewData["Title"] = "Bulk Entry";
 }
 
-<form asp-controller="Cards" asp-action="Excel" method="post" enctype="multipart/form-data">
-    <input type="file" name="postedFile"/>
-    <input type="submit" value="Import"/>
-</form>
+
+<div class="col-md-6 mr-auto ml-auto p-0 mt-3 mb-5">
+    <h3 class="formbar mb-0">Bulk Entry</h3>
+    <div class="col-md-12 form-bg">
+        
+        <form asp-controller="Cards" asp-action="Excel" method="post" enctype="multipart/form-data" class="pt-3 mb-3">
+            <input class="btn btn-info" type="file" class="" name="postedFile"/>
+            <input class="btn btn-success"type="submit" value="Import" />
+        </form>
+
+
+
+        <form asp-controller="Cards" asp-action="ProcessAfteBulkEntry" method="post" class="pt-3 pb-3">
+            <h5 class="text-danger">After Each Bulk Entry Give Card Number to Uploaded Excel Sheet</h5>
+            <input class="btn btn-info" type="submit" value="Give Card Number" />
+        </form>
+    </div>
+</div>
+
+

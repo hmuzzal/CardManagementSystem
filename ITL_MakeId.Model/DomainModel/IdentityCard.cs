@@ -1,21 +1,22 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ITL_MakeId.Model.DomainModel
 {
     public class IdentityCard
     {
-        public IdentityCard()
-        {
-            CompanyName = "Interlink Technologies Ltd.";
-            CompanyAddress = "Office No. 801 (7th Floor) 1205, 185 Sonargaon Road, Dhaka";
-            ImagePathOfAuthorizedSignature = "";
-            ImagePathOfAuthorizedSignature = "";
-            CompanyLogoPath = "";
-            CardInfo = "This card should be used by card holder only. If this card is found ownerless, please, return" +
-                       "it to the issuing authority. This card is not transferable to anybody.";
+        //public IdentityCard()
+        //{
+        //    CompanyName = "Interlink Technologies Ltd.";
+        //    CompanyAddress = "Office No. 801 (7th Floor) 1205, 185 Sonargaon Road, Dhaka";
+        //    ImagePathOfAuthorizedSignature = "";
+        //    ImagePathOfAuthorizedSignature = "";
+        //    CompanyLogoPath = "";
+        //    CardInfo = "This card should be used by card holder only. If this card is found ownerless, please, return" +
+        //               "it to the issuing authority. This card is not transferable to anybody.";
 
-        }
+        //}
 
         public int Id { get; set; }
 
@@ -35,8 +36,9 @@ namespace ITL_MakeId.Model.DomainModel
 
         public string CardNumber { get; set; }
 
+        [Column(TypeName = "date")]
         [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         public string ImagePathOfUser { get; set; }
         public string ImagePathOfUserSignature { get; set; }
@@ -51,11 +53,14 @@ namespace ITL_MakeId.Model.DomainModel
         public string CompanyLogoPath { get; set; }
 
         public string CardInfo { get; set; }
+        [Column(TypeName = "date")]
         [DataType(DataType.Date)]
         public DateTime? ValidationStartDate { get; set; }
+        [Column(TypeName = "date")]
         [DataType(DataType.Date)]
         public DateTime? ValidationEndDate { get; set; }
 
+        [Column(TypeName = "date")]
         [DataType(DataType.Date)]
         public DateTime? IssueDate { get; set; }
 
