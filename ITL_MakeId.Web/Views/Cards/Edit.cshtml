@@ -114,7 +114,7 @@
                     <div class="form-group">
                         <label asp-for="ImagePathOfUser" class="control-label"></label>
                         <div class="custom-file">
-                            <input asp-for="ImagePathOfUser" class="form-control custom-file-input" onchange="loadFile(event)"/>
+                            <input asp-for="ImagePathOfUser" class="form-control custom-file-input" id="userImage" onchange="loadFile(event)"/>
                             @if (Model.IdentityCard.ImagePathOfUser == null)
                             {
                                 <label class="custom-file-label">Choose Image...</label>
@@ -183,9 +183,9 @@
                         '"/>';
 
                     Webcam.upload(data_uri,
-                        '/Camera/Capture',
+                        '/Cards/Edit',
                         function (code, text) {
-                            alert('Photo Captured');
+                            alert('Photo Saved');
                         });
 
                 });

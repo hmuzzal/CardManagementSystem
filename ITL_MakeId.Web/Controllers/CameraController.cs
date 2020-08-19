@@ -13,10 +13,10 @@ namespace ITL_MakeId.Web.Controllers
     public class CameraController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IHostingEnvironment _environment;
+        private readonly IHostingEnvironment _webHostEnvironment;
         public CameraController(IHostingEnvironment hostingEnvironment, ApplicationDbContext context)
         {
-            _environment = hostingEnvironment;
+            _webHostEnvironment = hostingEnvironment;
             _context = context;
         }
 
@@ -32,7 +32,10 @@ namespace ITL_MakeId.Web.Controllers
         {
             try
             {
+                string uniqueFileName = null;
+                string filePath = null;
                 var files = HttpContext.Request.Form.Files;
+                
                 if (files != null)
                 {
                     foreach (var file in files)
@@ -41,27 +44,17 @@ namespace ITL_MakeId.Web.Controllers
                         {
                             // Getting Filename
                             var fileName = file.FileName;
-                            // Unique filename "Guid"
-                            var myUniqueFileName = Convert.ToString(Guid.NewGuid());
-                            // Getting Extension
-                            var fileExtension = Path.GetExtension(fileName);
-                            // Concating filename + fileExtension (unique filename)
-                            var newFileName = string.Concat(myUniqueFileName, fileExtension);
-                            //  Generating Path to store photo 
-                            var filepath = Path.Combine(_environment.WebRootPath, "CameraPhotos") + $@"\{newFileName}";
 
-                            if (!string.IsNullOrEmpty(filepath))
+                            string uplaodsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "image/user/");
+                            uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;
+                            filePath = Path.Combine(uplaodsFolder, uniqueFileName);
+
+
+                            using (var stream = new FileStream(filePath, FileMode.Create))
                             {
-                                // Storing Image in Folder
-                                StoreInFolder(file, filepath);
+                                //viewModel.ImagePathOfUser.CopyTo(stream);
                             }
 
-                            var imageBytes = System.IO.File.ReadAllBytes(filepath);
-                            if (imageBytes != null)
-                            {
-                                // Storing Image in Folder
-                                StoreInDatabase(imageBytes);
-                            }
 
                         }
                     }

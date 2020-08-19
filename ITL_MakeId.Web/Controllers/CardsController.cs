@@ -267,10 +267,12 @@ namespace ITL_MakeId.Web.Controllers
         }
 
         [Authorize]
-        [Microsoft.AspNetCore.Mvc.HttpPost]
-        [Microsoft.AspNetCore.Mvc.ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, IdentityCardEditViewModel viewModel)
         {
+
+            //var files = HttpContext.Request.Form.Files;
 
             if (id != viewModel.IdentityCard.Id)
             {
@@ -375,10 +377,18 @@ namespace ITL_MakeId.Web.Controllers
 
                         model.ValidationStartDate = viewModel.IdentityCard.ValidationStartDate;
                         model.ValidationEndDate = viewModel.IdentityCard.ValidationEndDate;
-                        model.ValidationEndDate = viewModel.IdentityCard.ValidationEndDate;
-              
-                        model.ImagePathOfUser = uniqueFileName;
-                        model.ImagePathOfUserSignature = uniqueFileNameSignature;
+
+                        if (viewModel.ImagePathOfUser != null)
+                        {
+                            model.ImagePathOfUser = uniqueFileName;
+                        }
+
+                        if (viewModel.ImagePathOfUserSignature != null)
+                        {
+                            model.ImagePathOfUserSignature = uniqueFileNameSignature;
+                        }
+
+                    
 
                         _context.Update(model);
                         var save = await _context.SaveChangesAsync();
@@ -510,20 +520,20 @@ namespace ITL_MakeId.Web.Controllers
         }
 
 
-        [Produces("application/json")]
-        public async Task<IActionResult> DepartmentSearch()
-        {
-            try
-            {
-                string term = HttpContext.Request.Query["term"].ToString();
-                var departments = _context.Departments.Where(d => d.Name.Contains(term)).Select(p => p.Name).ToList();
-                return Ok(departments);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
+        //[Produces("application/json")]
+        //public async Task<IActionResult> DepartmentSearch()
+        //{
+        //    try
+        //    {
+        //        string term = HttpContext.Request.Query["term"].ToString();
+        //        var departments = _context.Departments.Where(d => d.Name.Contains(term)).Select(p => p.Name).ToList();
+        //        return Ok(departments);
+        //    }
+        //    catch
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
 
 
         public IActionResult Excel()
@@ -652,6 +662,78 @@ namespace ITL_MakeId.Web.Controllers
             }
 
             return View("Excel");
+        }
+
+
+
+
+        [Produces("application/json")]
+        public async Task<IActionResult> DepartmentSearch()
+        {
+            try
+            {
+                string term = HttpContext.Request.Query["term"].ToString();
+                var departments = _context.Departments.Where(d => d.Name.Contains(term)).Select(p => p.Name).ToList();
+                return Ok(departments);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+
+        //[Produces("application/json")]
+        //public async Task<IActionResult> Capture()
+        //{
+        //    try
+        //    {
+        //        string term = HttpContext.Request.Query["term"].ToString();
+        //        var departments = _context.Departments.Where(d => d.Name.Contains(term)).Select(p => p.Name).ToList();
+        //        return Ok(departments);
+        //    }
+        //    catch
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
+
+
+        //[Produces("application/json")]
+        //public async Task<IActionResult> Capture()
+        //{
+        //    try
+        //    {
+        //        string fileName = null;
+        //        var files = HttpContext.Request.Form.Files;
+        //        if (files != null)
+        //        {
+        //            foreach (var file in files)
+        //            {
+        //                if (file.Length > 0)
+        //                {
+        //                     fileName = file.FileName;
+        //                }
+        //            }
+        //            return Ok(fileName);
+        //        }
+
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest();
+        //    }
+
+
+
+
+        private void StoreInFolder(IFormFile file, string fileName)
+        {
+            using (FileStream fs = System.IO.File.Create(fileName))
+            {
+                file.CopyTo(fs);
+                fs.Flush();
+            }
         }
     }
 }
