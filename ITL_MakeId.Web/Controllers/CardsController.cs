@@ -271,8 +271,7 @@ namespace ITL_MakeId.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, IdentityCardEditViewModel viewModel)
         {
-
-            //var files = HttpContext.Request.Form.Files;
+ 
 
             if (id != viewModel.IdentityCard.Id)
             {
@@ -717,23 +716,16 @@ namespace ITL_MakeId.Web.Controllers
         //            }
         //            return Ok(fileName);
         //        }
-
+                
         //    }
         //    catch (Exception)
         //    {
         //        return BadRequest();
         //    }
 
+        
 
 
 
-        private void StoreInFolder(IFormFile file, string fileName)
-        {
-            using (FileStream fs = System.IO.File.Create(fileName))
-            {
-                file.CopyTo(fs);
-                fs.Flush();
-            }
-        }
     }
 }

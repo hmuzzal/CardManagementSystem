@@ -96,7 +96,7 @@
 
                 <form enctype="multipart/form-data" asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="IdentityCard.Id"/>
+                    <input type="hidden" asp-for="IdentityCard.Id" id="cardId"/>
                     <input type="hidden" asp-for="Name"/>
                     <input type="hidden" asp-for="Department"/>
                     <input type="hidden" asp-for="DateOfBirth"/>
@@ -183,8 +183,21 @@
                         '"/>';
 
                     Webcam.upload(data_uri,
-                        '/Cards/Edit',
+                        $.ajax({
+                            url: "/Camera/Capture",
+                            type: "POST",
+                            data: { id: $("#cardId").val() },
+                            traditional: true,
+                            success: function (result) {
+                                alert("Saved");
+                            },
+                            error: function () {
+                                alert("Failed");
+                            }
+                        })
+                        ,
                         function (code, text) {
+
                             alert('Photo Saved');
                         });
 
