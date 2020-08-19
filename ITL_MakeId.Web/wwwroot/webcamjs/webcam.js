@@ -279,11 +279,11 @@ var Webcam = {
 			
 			if ((scaleX != 1.0) || (scaleY != 1.0)) {
 				elem.style.overflow = 'hidden';
-				video.style.webkitTransformOrigin = '0px 0px';
-				video.style.mozTransformOrigin = '0px 0px';
-				video.style.msTransformOrigin = '0px 0px';
-				video.style.oTransformOrigin = '0px 0px';
-				video.style.transformOrigin = '0px 0px';
+				video.style.webkitTransformOrigin = '0px';
+				video.style.mozTransformOrigin = '0px';
+				video.style.msTransformOrigin = '0px';
+				video.style.oTransformOrigin = '0px';
+				video.style.transformOrigin = '0px';
 				video.style.webkitTransform = 'scaleX('+scaleX+') scaleY('+scaleY+')';
 				video.style.mozTransform = 'scaleX('+scaleX+') scaleY('+scaleY+')';
 				video.style.msTransform = 'scaleX('+scaleX+') scaleY('+scaleY+')';

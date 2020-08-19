@@ -12,10 +12,8 @@
 
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>WebcamJS Test Page</title>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <style type="text/css">
+    @*<meta http-equiv="Content-Type" content="text/html; charset=utf-8">*@
+    @*<style type="text/css">
 
         body {
             font-family: Helvetica, sans-serif;
@@ -39,7 +37,7 @@
             border: none !important;
             font-size: 0;
         }
-    </style>
+    </style>*@
 
 </head>
 
@@ -52,23 +50,21 @@
             <div class="col-md-12 form-bg mb-5">
                    
                 <div class="col-md-12 mb-3 pt-3">
-                    <div class="col-md-6">
-                        <div class="col-md-3">
+                    <div class="col-md-3 float-left mr-3">
+                        @*<div class="col-md-3">*@
                             <div class="upload-box border border-info" id="results">
                                 <img src="@imageUrl" class="upload-box border border-info" id="output" />
                             </div>
-                        </div>
+                        @*</div>*@
                     </div>
 
                     @*<div class="col-md-4"></div>*@
-                    <div class="col-md-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading"></div>
-                            <div class="panel-body">
-                                <div id="my_camera"></div>
-                                <input type="button" class="btn btn-success" value="Take Snapshot" onClick="take_snapshot()">
-                            </div>
-                        </div>
+                    <div class="col-md-6 float-left">
+                        <div id="my_camera" class="border-light"> </div>
+                    </div>  
+                    
+                    <div class="col-md-2 float-left">
+                        <input type="button" class="btn btn-success" value="Take Snapshot" onClick="take_snapshot()">
                     </div>
                 </div>
                 <dl class="row col-md-6">
@@ -163,10 +159,15 @@
 
         <script language="JavaScript">
             Webcam.set({
-                width: 150,
-                height: 200,
-                image_format: 'jpeg',
-                jpeg_quality: 90
+                width: 300,
+                height: 280,
+                image_format: 'jpg',
+                jpeg_quality: 100,
+
+                //crop_width: 148,
+                //crop_height: 168,
+                dest_width: 148,
+                dest_height: 168
             });
             Webcam.attach('#my_camera');
         </script>
